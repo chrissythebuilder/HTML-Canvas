@@ -12,13 +12,69 @@
 
     <script>
         const canvas = document.querySelector("#draw");
-        
+
         // you don't draw directly on the canvas element but on the context
+        // ctx is where we do all our drawing
         const ctx = canvas.getContext("2d");
 
         // resize the canvas to be as big as the window
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        ctx.strokeStyle = "#BADA55";
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.lineWidth = 100;
+        ctx.globalCompositeOperation = "multiply";
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let hue = 0;
+        let direction = true;
+
+        function draw(e) {
+            if(!isDrawing) return;
+            console.log(e);
+            ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+            ctx.beginPath();
+            // start from
+            ctx.moveTo(lastX, lastY);
+            // go to
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+
+            // when we're done with the draw function, update X and Y 
+            // destructuring an array
+            [lastX, lastY] = [e.offsetX, e.offsetY];
+            hue++;
+
+            if (hue >= 360) {
+                hue = 0;
+            }
+
+            if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+                direction = !direction;
+            } 
+
+            if (direction) {
+                ctx.lineWidth++;
+            } else {
+                ctx.lineWidth--;
+            }
+        }
+
+        // make sure that we can start to draw wherever upon mousedown
+        canvas.addEventListener("mousedown", (e) => {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX, e.offSetY];
+        });
+
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", () => isDrawing = false);
+        canvas.addEventListener("mouseout", () => isDrawing = false);
+
+        // HSL (Hue, Saturation, Lightness) colors found in a rainbow
     </script>
 </body>
 </html>
