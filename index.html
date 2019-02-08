@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>HTML5 Canvas</title>
+</head>
+<body>
+    <canvas id = "draw" width="800" height="800"></canvas>
+
+    <script>
+        const canvas = document.querySelector("#draw");
+        
+        // you don't draw directly on the canvas element but on the context
+        const ctx = canvas.getContext("2d");
+
+        // resize the canvas to be as big as the window
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    </script>
+</body>
+</html>
